@@ -1,14 +1,19 @@
 
-export function sanitizeString(value: string) {
+export function sanitizeString(value: string | number | undefined) {
+  // If value is falsy, return an empty string
   if (!value) {
     return "";
   }
-  // Remove < and > 
-  const sanitizedInput = value.replace(/[<>]/g, '');
-  if (!sanitizedInput) {
+  // If value does not have toString or a length, return an empty string
+  if (!value?.toString() || value.toString().length === 0) {
     return "";
   }
-
+  // If value is a number, return it as a string
+  if (typeof value === 'number') {
+    return value?.toString();
+  }
+  // Remove < and > 
+  const sanitizedInput = value.replace(/[<>]/g, "") || "";
   return sanitizedInput;
 }
 
